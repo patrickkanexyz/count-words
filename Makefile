@@ -1,2 +1,4 @@
-cw: main.go
-    go build -o cw main.go
+.RECIPEPREFEX = >
+
+main: main.go
+> go build -o cw main.go
