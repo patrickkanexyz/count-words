@@ -1,32 +1,32 @@
 package main
 
 import (
+	"flag"
 	"fmt"
-    "flag"
+	"log"
 	"os"
-    "log"
 )
 
 func main() {
-    // Define commandline flags
-    var cFlag = flag.Bool("c", false, "Print out number of bytes in file.")
-    flag.Parse()
-    
-    filename := os.Args[1]
-    fmt.Println(filename)
+	// Define commandline flags
+	var cFlag = flag.Bool("c", false, "Print out number of bytes in file.")
+	flag.Parse()
 
-    file, err := os.Open(filename)
-    if err != nil {
-        log.Fatal(err)
-    }
+	filenames := flag.Args()
+	fmt.Println(filenames)
 
-    data := make([]byte, 1000)
-    count, err := file.Read(data)
-    if err != nil {
-        log.Fatal(err)
-    }
+	file, err := os.Open(filenames[0])
+	if err != nil {
+		log.Fatal(err)
+	}
 
-    fmt.Println("-c: ", *cFlag)
+	data := make([]byte, 1000)
+	count, err := file.Read(data)
+	if err != nil {
+		log.Fatal(err)
+	}
 
-    fmt.Printf("%d %s\n", count, filename)
+	fmt.Println("-c: ", *cFlag)
+
+	fmt.Printf("%d %s\n", count, filenames[0])
 }
