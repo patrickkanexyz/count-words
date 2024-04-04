@@ -13,20 +13,19 @@ func main() {
 	flag.Parse()
 
 	filenames := flag.Args()
-	fmt.Println(filenames)
 
-	file, err := os.Open(filenames[0])
-	if err != nil {
-		log.Fatal(err)
-	}
+    if *cFlag {
+        for _, filename := range filenames {
+            count_bytes(filename)
+        }
+    }
 
-	data := make([]byte, 1000)
-	count, err := file.Read(data)
-	if err != nil {
-		log.Fatal(err)
-	}
+}
 
-	fmt.Println("-c: ", *cFlag)
-
-	fmt.Printf("%d %s\n", count, filenames[0])
+func count_bytes(filename string) {
+    data, err := os.ReadFile(filename)
+    if err != nil {
+        log.Fatal(err)
+    }
+    fmt.Printf("%d %s\n", len(data), filename)
 }
