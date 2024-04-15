@@ -64,8 +64,8 @@ func main() {
                     word_count++
                 }
                 word_state = IN
+                char_count++
             }
-            char_count++
         }
 
 
