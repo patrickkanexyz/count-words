@@ -10,9 +10,10 @@ import (
 
 func main() {
 	// Define commandline flags
-	//var cFlag = flag.Bool("c", false, "Print out number of bytes in file.")
-    //var lFlag = flag.Bool("l", false, "Print out number of lines in file.")
-    //var wFlag = flag.Bool("w", false, "Print out number of words in file.")
+	var cFlag = flag.Bool("c", false, "Print out number of bytes in file.")
+    var lFlag = flag.Bool("l", false, "Print out number of lines in file.")
+    var wFlag = flag.Bool("w", false, "Print out number of words in file.")
+    var mFlag = flag.Bool("m", false, "Print out number of characters in file.")
 	flag.Parse()
 
 	filenames := flag.Args()
@@ -48,6 +49,7 @@ func main() {
         byte_count := len(data)
         line_count := 0
         word_count := 0
+        char_count := 0
 
         for _, runeValue := range unicode_data {
             if unicode.IsSpace(runeValue) {
@@ -63,8 +65,33 @@ func main() {
                 }
                 word_state = IN
             }
+            char_count++
         }
 
-        fmt.Printf("%d %d %d %s\n", byte_count, word_count, line_count, filename)
+
+        // Output string
+        output := ""
+
+        if *cFlag {
+            output += fmt.Sprintf("%d ", byte_count)
+        }
+
+        if *lFlag {
+            output += fmt.Sprintf("%d ", line_count)
+        }
+
+        if *wFlag {
+            output += fmt.Sprintf("%d ", word_count)
+        }
+
+        if *mFlag {
+            output += fmt.Sprintf("%d ", char_count)
+        }
+
+        if ! (*cFlag || *lFlag || *wFlag || *mFlag) {
+            fmt.Printf("%d %d %d %s\n", line_count, word_count, char_count, filename)
+        } else {
+            fmt.Printf("%s %s\n", output, filename)
+        }
     }
 }
