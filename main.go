@@ -59,6 +59,10 @@ func main() {
                     line_count++
                 }
             }
+            if unicode.IsControl(runeValue) {
+                fmt.Println("Found control character!")
+            }
+
             if ! unicode.IsSpace(runeValue) {
                 if word_state == OUT {
                     word_count++
