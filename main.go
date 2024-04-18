@@ -49,26 +49,27 @@ func main() {
         byte_count := len(data)
         line_count := 0
         word_count := 0
-        char_count := 0
+        char_count := len(unicode_data)
 
         for _, runeValue := range unicode_data {
             if unicode.IsSpace(runeValue) {
+            //if isWhitespace(runeValue) {
                 word_state = OUT
 
                 if runeValue == '\n' {
                     line_count++
                 }
             }
-            if unicode.IsControl(runeValue) {
-                fmt.Println("Found control character!")
-            }
+            //if unicode.IsControl(runeValue) {
+            //    fmt.Println("Found control character!")
+            //}
 
             if ! unicode.IsSpace(runeValue) {
+            //if ! isWhitespace(runeValue) {
                 if word_state == OUT {
                     word_count++
                 }
                 word_state = IN
-                char_count++
             }
         }
 
@@ -98,4 +99,11 @@ func main() {
             fmt.Printf("%s %s\n", output, filename)
         }
     }
+}
+
+func isWhitespace(r rune) bool {
+    if (r == '\n' || r == '\t' || r == ' ') {
+        return true
+    }
+    return false
 }
